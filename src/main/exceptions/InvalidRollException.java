@@ -1,6 +1,6 @@
-package main.exceptions.frame;
+package main.exceptions;
 
-public class InvalidRollException extends FrameException {
+public class InvalidRollException extends BowlingException {
 	
 	public InvalidRollException() {
 		super();

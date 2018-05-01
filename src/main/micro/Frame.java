@@ -1,8 +1,7 @@
 package main.micro;
 
+import main.exceptions.InvalidRollException;
 import main.exceptions.frame.FrameMaxedOutException;
-import main.exceptions.frame.InvalidRollException;
-import main.exceptions.frame.NotYetRolledException;
 
 public class Frame {
 	
@@ -10,13 +9,6 @@ public class Frame {
 	
 	public Frame() {}
 
-	public int getFirstRoll() throws NotYetRolledException {
-		return getRoll(0);
-	}
-	public int getSecondRoll() throws NotYetRolledException {
-		return getRoll(1);
-	}
-	
 	public boolean hasRolledFirst() {
 		return hasRolled(0);
 	}
@@ -29,7 +21,7 @@ public class Frame {
 	 * @param fallenPins - the number of pins that have fallen due to this roll.
 	 * @throws FrameMaxedOutException each frame can only contain two rolls.
 	 */
-	public void roll(int fallenPins) throws FrameMaxedOutException {
+	public void roll(int fallenPins) throws IllegalArgumentException {
 		
 		/* === Validate input === */
 		
@@ -38,9 +30,9 @@ public class Frame {
 		if(!validInput)								throw new IllegalArgumentException();
 		if(hasRolledFirst() && hasRolledSecond()) 	throw new FrameMaxedOutException();
 		if(hasRolledFirst() &&
-				getFirstRoll() + fallenPins > 10) 	throw new InvalidRollException("Cannot knock over more than 10 pins per frame.");
+				getRoll(0) + fallenPins > 10) 	throw new InvalidRollException("Cannot knock over more than 10 pins per frame.");
 		
-		/* === Functional === */
+		/* === Body === */
 		
 		if(!hasRolledFirst()) {
 			quilles[0] = fallenPins;
@@ -51,12 +43,8 @@ public class Frame {
 	
 	/* === INTERNAL === */
 	
-	private int getRoll(int num) throws NotYetRolledException{
-		if(quilles[num] != null) {
-			return quilles[num];
-		} else {
-			throw new NotYetRolledException();
-		}
+	private int getRoll(int num) {
+		return quilles[num];
 	};
 
 	private boolean hasRolled(int num) {

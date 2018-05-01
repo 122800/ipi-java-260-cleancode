@@ -1,6 +1,8 @@
 package main.exceptions.frame;
 
-public class FrameException extends RuntimeException {
+import main.exceptions.BowlingException;
+
+public class FrameException extends BowlingException {
 	
 	public FrameException() {
 		super();
