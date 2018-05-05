@@ -1,47 +1,69 @@
 package test.internal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
-import main.exceptions.InvalidRollException;
+import main.exceptions.BowlingException;
+import main.exceptions.GameMaxedOutException;
 import main.micro.Game;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GameTest {
 	
 	/* === TEST MECHA === */
-	@Test public void testSpareConsumesOneFrame() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testEveryNonStrikeConsumesOneFrame() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
-		// When
-		int initialProgress = g.getFramesRolled();
-		g.roll(5);
-		int progressOneRoll= g.getFramesRolled();
-		g.roll(5);
-		int progressTwoRolls= g.getFramesRolled();
+		// When / Then
+		assertEquals(0, g.getFramesCompleted());
+
+		g.roll(5); assertEquals(0, g.getFramesCompleted());
+		g.roll(5); assertEquals(1, g.getFramesCompleted());
 		
-		// Then
-		assertEquals(initialProgress, 0);
-		assertEquals(progressOneRoll, 0);
-		assertEquals(progressTwoRolls, 1);
+		g.roll(5); assertEquals(1, g.getFramesCompleted());
+		g.roll(5); assertEquals(2, g.getFramesCompleted());
+		
+		g.roll(0); assertEquals(2, g.getFramesCompleted());
+		g.roll(0); assertEquals(3, g.getFramesCompleted());
 	}
-	@Test public void testStrikeConsumesOneFrame() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testEachStrikeConsumesOneFrame() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
-		// When
-		int initialProgress = g.getFramesRolled();
-		g.roll(10);
-		int progressAfterStrike = g.getFramesRolled();
+		// When / Then
+		assertEquals(0, g.getFramesCompleted());
+
+		g.roll(10); assertEquals(1, g.getFramesCompleted());
+		g.roll(10); assertEquals(2, g.getFramesCompleted());
+		g.roll(10); assertEquals(3, g.getFramesCompleted());
+		g.roll(10); assertEquals(4, g.getFramesCompleted());
+	}
+
+	@Test public void testTooManyRolls() throws IllegalArgumentException, BowlingException {
+		// Given
+		Game g = new Game();
+		rollMany(g, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);// ten frames used up
+		
+		// When		
+		GameMaxedOutException maxedOutException = null;
+		try {
+			g.roll(0);
+			
+		} catch (GameMaxedOutException e) {
+			maxedOutException = e;
+		}
 		
 		// Then
-		assertEquals(initialProgress, 0);
-		assertEquals(progressAfterStrike, 1);
+		assertNotNull("Game should have thrown maxed out exception after more than 10 frames", maxedOutException);
 	}
 
 	/* === TEST POINTS === */
-	@Test public void testOnlyOpenFramePoints() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testPointsOpenFrames() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
@@ -59,14 +81,14 @@ public class GameTest {
 		int iteration4Score = g.getScore();
 		
 		// Then
-		assertEquals(6, iteration1Score);
-		assertEquals(6+19, iteration2Score);
-		assertEquals(6+19+0, iteration3Score);
+		assertEquals(6, 		iteration1Score);
+		assertEquals(6+19, 		iteration2Score);
+		assertEquals(6+19+0, 	iteration3Score);
 		assertEquals(6+19+0+20, iteration4Score);
 	}
 
 	/* === consecutive strikes === */
-	@Test public void testStrikePoints() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testPointsStrike() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
@@ -78,7 +100,7 @@ public class GameTest {
 		// Then
 		assertEquals(24, score);
 	}
-	@Test public void testRhinoPoints() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testPointsRhino() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
@@ -90,7 +112,7 @@ public class GameTest {
 		// Then
 		assertEquals(54, score);
 	}
-	@Test public void testTurkeyPoints() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testPointsTurkey() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
@@ -102,7 +124,7 @@ public class GameTest {
 		// Then
 		assertEquals(74, score);
 	}
-	@Test public void testLlamaPoints() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testPointsLlama() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
@@ -114,7 +136,7 @@ public class GameTest {
 		// Then
 		assertEquals(107, score);
 	}
-	@Test public void testThanksgivingTurkeyPoints() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testPointsThanksgivingTurkey() throws IllegalArgumentException, BowlingException {
 		// Given
 		Game g = new Game();
 		
@@ -133,7 +155,7 @@ public class GameTest {
 	 * @param g - the bowling game instance
 	 * @param rolls - don't forget that a single roll resulting in a strike will automatically consume the entire frame.
 	 */
-	private void rollMany(Game g, int... rolls) throws IllegalArgumentException, InvalidRollException {
+	private void rollMany(Game g, int... rolls) throws IllegalArgumentException, BowlingException {
 		for(int num : rolls) {
 			g.roll(num);
 		}

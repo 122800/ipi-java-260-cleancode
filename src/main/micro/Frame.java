@@ -5,12 +5,19 @@ import main.exceptions.frame.FrameMaxedOutException;
 
 public class Frame {
 	
+	public enum FrameType {
+		ONGOING, OPENFRAME, SPARE, STRIKE
+	}
+	
 	public Frame() {}
 	
 	private Integer[] quilles = new Integer[3];
 	private FrameType type = FrameType.ONGOING;
 	private int remainingPins = 10;
 
+	public FrameType getType() {
+		return type;
+	}
 	public boolean isFull() {
 		return type != FrameType.ONGOING;
 	}
@@ -64,8 +71,4 @@ public class Frame {
 	private boolean hasRolled(int num) {
 		return quilles[num] != null;
 	}
-}
-
-enum FrameType {
-	ONGOING, OPENFRAME, SPARE, STRIKE
 }
