@@ -1,7 +1,9 @@
 package test.internal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -111,6 +113,7 @@ public class FrameTest {
 		
 		// Then
 		assertEquals(FrameType.ONGOING, type);
+		assertFalse(f.isFull());
 	}
 	@Test public void testFrameTypeOPENFRAME() throws IllegalArgumentException, BowlingException {
 		// Given
@@ -118,12 +121,25 @@ public class FrameTest {
 		f.roll(5);
 		f.roll(4);
 		
+		// When
+		FrameType type = f.getType();
+		
+		// Then
+		assertEquals(FrameType.OPENFRAME, type);
+		assertTrue(f.isFull());
+	}
+	@Test public void testFrameTypeOPENFRAME_2() throws IllegalArgumentException, BowlingException {
+		// Given
+		Frame f = new Frame();
+		f.roll(0);
+		f.roll(9);
 		
 		// When
 		FrameType type = f.getType();
 		
 		// Then
 		assertEquals(FrameType.OPENFRAME, type);
+		assertTrue(f.isFull());
 	}
 	@Test public void testFrameTypeSPARE() throws IllegalArgumentException, BowlingException {
 		// Given
@@ -131,19 +147,27 @@ public class FrameTest {
 		f.roll(5);
 		f.roll(5);
 		
-		Frame f2 = new Frame();
-		f2.roll(0);
-		f2.roll(10);
-		
+		// When
+		FrameType type = f.getType();
+
+		// Then
+		assertEquals(FrameType.SPARE, type);
+		assertTrue(f.isFull());
+	}
+	@Test public void testFrameTypeSPARE_2() throws IllegalArgumentException, BowlingException {
+		// Given
+		Frame f = new Frame();
+		f.roll(0);
+		f.roll(10);
 		
 		// When
 		FrameType type = f.getType();
-		FrameType type2 = f2.getType();
-		
+
 		// Then
 		assertEquals(FrameType.SPARE, type);
-		assertEquals(FrameType.SPARE, type2);
+		assertTrue(f.isFull());
 	}
+	
 	@Test public void testFrameTypeSTRIKE() throws IllegalArgumentException, BowlingException {
 		// Given
 		Frame f = new Frame();
@@ -154,5 +178,6 @@ public class FrameTest {
 		
 		// Then
 		assertEquals(FrameType.STRIKE, type);
+		assertTrue(f.isFull());
 	}
 }

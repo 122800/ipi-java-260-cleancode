@@ -3,13 +3,19 @@ package main.micro;
 import main.exceptions.GameMaxedOutException;
 import main.exceptions.InvalidRollException;
 import main.exceptions.frame.FrameMaxedOutException;
+import main.micro.Frame.FrameType;
 
 public class Game {
 	
 	private int score = 0;
 	private int currentFrameNum = 0;
 	private Frame[] frames = new Frame[10];
+	private int bonusPointStack = 0;
 
+	/**
+	 * 
+	 * @return The current number of frames that cannot accept any more rolls. 
+	 */
 	public int getFramesCompleted() {
 		int i = 0;
 		while(frames[i] != null && frames[i].isFull()) {
@@ -20,6 +26,9 @@ public class Game {
 	}
 	public int getScore() {
 		return score;
+	}
+	public Frame getCurrentFrame() {
+		return frames[currentFrameNum];
 	}
 	
 	public Game() {
@@ -37,17 +46,52 @@ public class Game {
 		
 		/* === Body === */
 		
+		Frame f = getCurrentFrame();
+		
 		try {
-			getCurrentFrame().roll(fallenPins);
+			f.roll(fallenPins);
+			calculateScore();
 			
 		} catch (FrameMaxedOutException e) {
-			nextFrame();// may throw maxed out exception
+			nextFrame();// may throw game maxed out exception
 			roll(fallenPins);// single-recursion
 		}
 	}
 	
-	
 	/* === INTERNAL === */
+	
+	private void calculateScore() {
+		
+		Frame f = getCurrentFrame();
+		
+		score += f.getLastRollPoints();
+		
+		if(bonusPointStack > 0) {
+			
+			if(bonusPointStack > 2) {
+				int excessBonus = bonusPointStack - 2;
+				score += (f.getLastRollPoints() * excessBonus);
+				bonusPointStack -= excessBonus;// i.e. bonusPointStack = 2
+			}
+			
+			score += f.getLastRollPoints();
+			bonusPointStack--;
+		}
+		
+		switch(f.getType()) {
+			case ONGOING:
+			case OPENFRAME:
+				break;
+				
+			case SPARE:
+				bonusPointStack++;
+				break;
+				
+			case STRIKE:
+				bonusPointStack += 2;
+				break;
+		}	
+	}
 
 	private void nextFrame() throws GameMaxedOutException {
 		
@@ -60,8 +104,5 @@ public class Game {
 		
 		frames[++currentFrameNum] = new Frame();
 		
-	}
-	private Frame getCurrentFrame() {
-		return frames[currentFrameNum];
 	}
 }

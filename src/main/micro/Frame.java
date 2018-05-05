@@ -11,15 +11,22 @@ public class Frame {
 	
 	public Frame() {}
 	
-	private Integer[] quilles = new Integer[3];
+	private final int MAX_PINS = 10;
+	
+	private Integer[] quilles = new Integer[2];
 	private FrameType type = FrameType.ONGOING;
-	private int remainingPins = 10;
+	private int remainingPins = MAX_PINS;
+	private int lastRollPoints;
 
 	public FrameType getType() {
 		return type;
 	}
 	public boolean isFull() {
 		return type != FrameType.ONGOING;
+	}
+	
+	public int getLastRollPoints() {
+		return lastRollPoints;
 	}
 	
 	/**
@@ -57,15 +64,15 @@ public class Frame {
 		} else {
 			quilles[1] = fallenPins;
 		}
-		// TODO consider final frame allowing three rolls
-		remainingPins -= fallenPins; 
+		remainingPins -= fallenPins;
+		lastRollPoints = fallenPins;
 	}
 	
 	private boolean hasRolledOnce() {
 		return hasRolled(0) && !hasRolled(1);
 	}
 	private boolean hasRolledTwice() {
-		return hasRolled(1);// && !hasRolled(2);
+		return hasRolled(1);
 	}
 
 	private boolean hasRolled(int num) {
