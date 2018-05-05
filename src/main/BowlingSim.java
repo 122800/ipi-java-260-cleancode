@@ -1,18 +1,13 @@
 package main;
 
-import main.micro.Frame;
+import main.micro.Game;
 
 public class BowlingSim {
 	
-	private Integer score;
-	private Frame[] frames;
+	private Game game;
 	
-	public BowlingSim() {
-		score = 0;
-	}
-
-	public int getScore() {
-		return score;
+	public static void main(String[] args) {
+		System.out.println("Hello");
 	}
 
 }
