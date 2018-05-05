@@ -10,7 +10,7 @@ import main.micro.Frame;
 public class FrameTest {
 	
 	
-	@Test public void testRolledTooManyTimes() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testRolledTooManyTimes() throws IllegalArgumentException, InvalidRollException, FrameMaxedOutException {
 		// Given
 		Frame f = new Frame();
 		f.roll(0);
@@ -29,7 +29,7 @@ public class FrameTest {
 		// Then
 		assertNotNull(alreadyFullException);
 	}
-	@Test public void testRollNegativeNumber() throws InvalidRollException {
+	@Test public void testRollNegativeNumber() throws InvalidRollException, FrameMaxedOutException {
 		// Given
 		Frame f = new Frame();
 		
@@ -44,7 +44,7 @@ public class FrameTest {
 		// Then
 		assertNotNull("Should throw exception when number format incorrect", invalidRoll);
 	}
-	@Test public void testFirstRollTooBig() throws InvalidRollException {
+	@Test public void testFirstRollTooBig() throws InvalidRollException, FrameMaxedOutException {
 		// Given
 		Frame f = new Frame();
 		
@@ -59,7 +59,7 @@ public class FrameTest {
 		// Then
 		assertNotNull("Should throw exception when first roll exceeds remaining pins", invalidRoll);
 	}
-	@Test public void testSecondRollTooBig() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testSecondRollTooBig() throws IllegalArgumentException, InvalidRollException, FrameMaxedOutException {
 		// Given
 		Frame f = new Frame();
 		
@@ -76,7 +76,7 @@ public class FrameTest {
 		assertNotNull("Should throw exception when second roll exceeds remaining pins", invalidRoll);
 	}
 
-	@Test public void testStrikeConsumesFrame() throws IllegalArgumentException, InvalidRollException {
+	@Test public void testStrikeConsumesFrame() throws IllegalArgumentException, InvalidRollException, FrameMaxedOutException {
 		// Given
 		Frame f = new Frame();
 		f.roll(10);

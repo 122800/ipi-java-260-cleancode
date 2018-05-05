@@ -12,7 +12,7 @@ public class Frame {
 	private int remainingPins = 10;
 
 	public boolean isFull() {
-		return hasRolledTwice();
+		return type != FrameType.ONGOING;
 	}
 	
 	/**
@@ -20,7 +20,7 @@ public class Frame {
 	 * @param fallenPins - the number of pins that have fallen due to this roll.
 	 * @throws IllegalArgumentException fallenPins can only be a number from 0 to 10.
 	 * @throws InvalidRollException cannot knock over more than 10 pins total.
-	 * @throws FrameMaxedOutException
+	 * @throws FrameMaxedOutException when this frame cannot accept any more rolls, for a variety of reasons.
 	 */
 	public void roll(int fallenPins) throws IllegalArgumentException, InvalidRollException, FrameMaxedOutException {
 		
@@ -29,7 +29,7 @@ public class Frame {
 		boolean validInput = (fallenPins >= 0) && (fallenPins <= 10);
 		
 		if(!validInput)						throw new IllegalArgumentException();
-		if(type != FrameType.ONGOING)		throw new FrameMaxedOutException();
+		if(isFull())						throw new FrameMaxedOutException();
 		if(remainingPins - fallenPins < 0)	throw new InvalidRollException("Cannot knock over more than 10 pins per frame.");
 		
 		/* === Body === */
@@ -53,10 +53,6 @@ public class Frame {
 		// TODO consider final frame allowing three rolls
 		remainingPins -= fallenPins; 
 	}
-	
-//	private int getRoll(int num) {
-//		return quilles[num];
-//	};
 	
 	private boolean hasRolledOnce() {
 		return hasRolled(0) && !hasRolled(1);

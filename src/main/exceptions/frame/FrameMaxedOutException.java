@@ -1,8 +1,8 @@
 package main.exceptions.frame;
 
-import main.exceptions.RuntimeBowlingException;
+import main.exceptions.BowlingException;
 
-public class FrameMaxedOutException extends RuntimeBowlingException {
+public class FrameMaxedOutException extends BowlingException {
 	
 	public FrameMaxedOutException() {
 		super();
