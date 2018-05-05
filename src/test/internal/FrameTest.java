@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import main.exceptions.BowlingException;
+import main.exceptions.FrameMaxedOutException;
 import main.exceptions.InvalidRollException;
-import main.exceptions.frame.FrameMaxedOutException;
 import main.micro.Frame;
 import main.micro.Frame.FrameType;
 

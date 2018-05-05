@@ -1,6 +1,4 @@
-package main.exceptions.frame;
-
-import main.exceptions.BowlingException;
+package main.exceptions;
 
 public class FrameMaxedOutException extends BowlingException {
 	

@@ -1,7 +1,7 @@
 package main.micro;
 
+import main.exceptions.FrameMaxedOutException;
 import main.exceptions.InvalidRollException;
-import main.exceptions.frame.FrameMaxedOutException;
 
 public class Frame {
 	

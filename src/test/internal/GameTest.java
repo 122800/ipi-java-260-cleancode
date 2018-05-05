@@ -120,6 +120,7 @@ public class GameTest {
 			rollMany(g, 0, 0);
 			rollMany(g, 0, 0);
 			rollMany(g, 0, 0);//10
+			
 		} catch(BowlingException e) {
 			throw new RuntimeException("Bad test? " + e.getMessage());
 		}
@@ -131,8 +132,9 @@ public class GameTest {
 			
 		} catch (GameMaxedOutException e) {
 			maxedOutException = e;
+			
 		} catch (InvalidRollException e) {
-			throw new RuntimeException("Bad test?");
+			throw new RuntimeException("Bad test? " + e.getMessage());
 		}
 		
 		// Then

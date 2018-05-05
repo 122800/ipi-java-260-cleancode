@@ -1,7 +1,6 @@
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 

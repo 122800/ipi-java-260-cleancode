@@ -1,9 +1,8 @@
 package main.micro;
 
+import main.exceptions.FrameMaxedOutException;
 import main.exceptions.GameMaxedOutException;
 import main.exceptions.InvalidRollException;
-import main.exceptions.frame.FrameMaxedOutException;
-import main.micro.Frame.FrameType;
 
 public class Game {
 	
