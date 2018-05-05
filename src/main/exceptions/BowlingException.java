@@ -1,6 +1,6 @@
 package main.exceptions;
 
-public class BowlingException extends RuntimeException {
+public class BowlingException extends Exception {
 	
 	public BowlingException() {
 		super();

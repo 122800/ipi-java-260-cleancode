@@ -1,4 +1,4 @@
-package test;
+package test.internal;
 
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -9,11 +9,13 @@ import main.micro.Frame;
 
 public class FrameTest {
 	
-	@Test public void testFrameRolledTooManyTimes() {
+	
+	@Test public void testRolledTooManyTimes() throws IllegalArgumentException, InvalidRollException {
 		// Given
 		Frame f = new Frame();
 		f.roll(0);
 		f.roll(0);
+		
 		
 		// When
 		FrameMaxedOutException alreadyFullException = null;
@@ -27,7 +29,7 @@ public class FrameTest {
 		// Then
 		assertNotNull(alreadyFullException);
 	}
-	@Test public void invalidRollNegativeNumber() {
+	@Test public void testRollNegativeNumber() throws InvalidRollException {
 		// Given
 		Frame f = new Frame();
 		
@@ -42,7 +44,7 @@ public class FrameTest {
 		// Then
 		assertNotNull("Should throw exception when number format incorrect", invalidRoll);
 	}
-	@Test public void invalidRollFirstRollTooBig() {
+	@Test public void testFirstRollTooBig() throws InvalidRollException {
 		// Given
 		Frame f = new Frame();
 		
@@ -57,7 +59,7 @@ public class FrameTest {
 		// Then
 		assertNotNull("Should throw exception when first roll exceeds remaining pins", invalidRoll);
 	}
-	@Test public void invalidRollSecondRollTooBig() {
+	@Test public void testSecondRollTooBig() throws IllegalArgumentException, InvalidRollException {
 		// Given
 		Frame f = new Frame();
 		

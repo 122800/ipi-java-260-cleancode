@@ -19,9 +19,10 @@ public class Frame {
 	/**
 	 * Throw the bowling ball to knock down some pins.
 	 * @param fallenPins - the number of pins that have fallen due to this roll.
-	 * @throws FrameMaxedOutException each frame can only contain two rolls.
+	 * @throws IllegalArgumentException fallenPins can only be a number from 0 to 10.
+	 * @throws InvalidRollException cannot knock over more than 10 pins total.
 	 */
-	public void roll(int fallenPins) throws IllegalArgumentException {
+	public void roll(int fallenPins) throws IllegalArgumentException, InvalidRollException {
 		
 		/* === Validate input === */
 		
