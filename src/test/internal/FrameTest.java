@@ -76,4 +76,23 @@ public class FrameTest {
 		assertNotNull("Should throw exception when second roll exceeds remaining pins", invalidRoll);
 	}
 
+	@Test public void testStrikeConsumesFrame() throws IllegalArgumentException, InvalidRollException {
+		// Given
+		Frame f = new Frame();
+		f.roll(10);
+		
+		
+		// When
+		FrameMaxedOutException alreadyFullException = null;
+		try {
+			f.roll(0);
+			
+		} catch (FrameMaxedOutException e) {
+			alreadyFullException = e;
+		}
+		
+		// Then
+		assertNotNull(alreadyFullException);
+	}
+
 }
