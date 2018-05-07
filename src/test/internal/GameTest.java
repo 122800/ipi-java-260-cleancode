@@ -50,7 +50,7 @@ public class GameTest implements TestUtilities {
 	@Test public void testTooManyRolls_Strikes()  {
 		// Given
 		Game g = new Game();
-		rollMany(g, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10);// ten frames used up
+		rollMany(g, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 9);// ten frames used up
 
 
 		// When
@@ -267,16 +267,29 @@ public class GameTest implements TestUtilities {
 		GameMaxedOutException shouldNotBeThrown = rollExpectingMaxedOutException(g, 5);
 		assertNull("Game should not end if last roll granted a bonus", shouldNotBeThrown);
 
-		assertEquals(275, g.getScore());
+		assertEquals(285, g.getScore());
 		
 		GameMaxedOutException shouldNotBeThrown_2 = rollExpectingMaxedOutException(g, 5);
 		assertNull("Game should provide two bonus rolls after a strike", shouldNotBeThrown_2);
 		
-		assertEquals(275, g.getScore());
+		assertEquals(295, g.getScore());
 		
 		GameMaxedOutException expectedException = rollExpectingMaxedOutException(g, 5);
 		assertNotNull("Game should only provide two bonus roll after a strike", expectedException);
 
+	}
+	
+	@Test public void testFinalRollStrikeBonusStrikeAgain() {
+		// Given
+		Game g = new Game();
+
+		rollMany(g, 10, 10, 10, 10, 10, 10, 10, 10, 10);// 9 frames
+		rollMany(g, 10);// final roll is a strike
+		
+		GameMaxedOutException shouldNotBeThrown = rollExpectingMaxedOutException(g, 10);
+		assertNull("Game should not end if last roll granted a bonus", shouldNotBeThrown);
+
+		assertEquals(300, g.getScore());
 	}
 
 }

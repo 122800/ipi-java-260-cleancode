@@ -8,8 +8,8 @@ public class Game {
 	
 	private int score = 0;
 	private int currentFrameNum = 0;
-	private Frame[] frames = new Frame[10];
 	private int bonusPointStack = 0;
+	private Frame[] frames = new Frame[12];// 10 frames + 2 bonus frames
 
 	/**
 	 * 
@@ -77,6 +77,8 @@ public class Game {
 			bonusPointStack--;
 		}
 		
+		if(currentFrameNum > 9) return;// no more bonus points awarded after game end
+		
 		switch(f.getType()) {
 			case ONGOING:
 			case OPENFRAME:
@@ -96,12 +98,19 @@ public class Game {
 		
 		/* === Validate context === */
 		
-		if(currentFrameNum > 8) 		throw new GameMaxedOutException();
+		boolean gameFull = (currentFrameNum > 8);
+		boolean bonusPoints = (bonusPointStack > 0);
+		
+		if(gameFull && !bonusPoints)	throw new GameMaxedOutException();
 		if(!getCurrentFrame().isFull())	throw new RuntimeException("Something went wrong: switched to next Frame while current Frame was not full");
 		
 		/* === Body === */
 		
-		frames[++currentFrameNum] = new Frame();
+		if(gameFull && bonusPoints) {
+			frames[++currentFrameNum] = new Frame(bonusPointStack);
+		} else {
+			frames[++currentFrameNum] = new Frame();			
+		}
 		
 	}
 }

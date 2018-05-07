@@ -9,7 +9,20 @@ public class Frame {
 		ONGOING, OPENFRAME, SPARE, STRIKE
 	}
 	
-	public Frame() {}
+	/**
+	 * Creates a new frame which can accept up to two rolls by default.
+	 */
+	public Frame() {
+		rollsRemaining = 2;
+	}
+	
+	/**
+	 * Creates a new frame which can accept a specific number of rolls before shutting down.
+	 * @param bonus - the number of rolls this frame will accept.
+	 */
+	public Frame(int bonus) {
+		rollsRemaining = bonus;
+	}
 	
 	private final int MAX_PINS = 10;
 	
@@ -18,11 +31,13 @@ public class Frame {
 	private int remainingPins = MAX_PINS;
 	private int lastRollPoints;
 
+	private int rollsRemaining;
+
 	public FrameType getType() {
 		return type;
 	}
 	public boolean isFull() {
-		return type != FrameType.ONGOING;
+		return (type != FrameType.ONGOING) || (rollsRemaining == 0);
 	}
 	
 	public int getLastRollPoints() {
@@ -49,6 +64,7 @@ public class Frame {
 		/* === Body === */
 		
 		topplePins(fallenPins);
+		rollsRemaining--;
 		
 		boolean noMorePins = (remainingPins == 0); 
 		if(hasRolledOnce() && noMorePins) type = FrameType.STRIKE;
