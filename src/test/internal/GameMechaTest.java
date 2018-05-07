@@ -10,23 +10,30 @@ import main.exceptions.BowlingException;
 import main.micro.Game;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class GameMechaTest {
+public class GameMechaTest implements TestUtilities {
 	
-	@Test public void testGetFramesCompleted0() throws IllegalArgumentException, BowlingException {
+	@Test public void testGetFramesCompleted() {
 		// Given
 		Game g = new Game();
 		
 		// When / Then
 		assertEquals(0, g.getFramesCompleted());
+		
+		int i = 0;
 
-		g.roll(5); assertEquals(0, g.getFramesCompleted());
-		g.roll(5); assertEquals(1, g.getFramesCompleted());
+		rollMany(g, 5); assertEquals(i, g.getFramesCompleted());
+		rollMany(g, 5); assertEquals(++i, g.getFramesCompleted());
 		
-		g.roll(5); assertEquals(1, g.getFramesCompleted());
-		g.roll(5); assertEquals(2, g.getFramesCompleted());
+		rollMany(g, 10); assertEquals(++i, g.getFramesCompleted());
+
+		rollMany(g, 5); assertEquals(i, g.getFramesCompleted());
+		rollMany(g, 5); assertEquals(++i, g.getFramesCompleted());
+
+		rollMany(g, 10); assertEquals(++i, g.getFramesCompleted());
 		
-		g.roll(0); assertEquals(2, g.getFramesCompleted());
-		g.roll(0); assertEquals(3, g.getFramesCompleted());
+		rollMany(g, 0); assertEquals(i, g.getFramesCompleted());
+		rollMany(g, 0); assertEquals(++i, g.getFramesCompleted());
+
 	}
 
 }
