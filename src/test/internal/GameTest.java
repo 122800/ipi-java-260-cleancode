@@ -222,7 +222,7 @@ public class GameTest implements TestUtilities {
 
 	}
 
-	/* === mixed events === */
+	/* === MIXED TESTS === */
 	@Test public void testPointsMixed() {
 		// Given
 		Game g = new Game();
@@ -290,6 +290,48 @@ public class GameTest implements TestUtilities {
 		assertNull("Game should not end if last roll granted a bonus", shouldNotBeThrown);
 
 		assertEquals(300, g.getScore());
+	}
+
+	@Test public void testPetrillo() {
+		
+		// Given / When / Then
+		
+		Game queDesGoutieresDonne0Points = new Game();
+		rollMany(queDesGoutieresDonne0Points, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		rollMany(queDesGoutieresDonne0Points, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		assertEquals(0, queDesGoutieresDonne0Points.getScore());
+
+		Game uneSeuleQuille = new Game();
+		rollMany(uneSeuleQuille, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		rollMany(uneSeuleQuille, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		assertEquals(1, uneSeuleQuille.getScore());
+
+		Game bonusDuSpare = new Game();
+		rollMany(bonusDuSpare, 8, 2, 1, 0, 0, 0, 0, 0, 0, 0);
+		rollMany(bonusDuSpare, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		assertEquals(12, bonusDuSpare.getScore());
+
+		Game bonusDuStrike = new Game();
+		rollMany(bonusDuStrike, 10, 1, 1, 0, 0, 0, 0, 0, 0);
+		rollMany(bonusDuStrike, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		assertEquals(14, bonusDuStrike.getScore());
+
+		Game spareSuivitStrike = new Game();
+		rollMany(spareSuivitStrike, 8, 2, 10, 1, 1, 0, 0, 0, 0);
+		rollMany(spareSuivitStrike, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		assertEquals(34, spareSuivitStrike.getScore());
+
+		Game strikeFinal = new Game();
+		rollMany(strikeFinal, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		rollMany(strikeFinal, 0, 0, 0, 0, 0, 0, 0, 0, 10);
+		rollMany(strikeFinal, 1, 1);
+		assertEquals(14, strikeFinal.getScore());// CHANGED FROM 12 TO 14
+
+		Game finPartie = new Game();
+		rollMany(finPartie, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		rollMany(finPartie, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		GameMaxedOutException expectedException = rollExpectingMaxedOutException(finPartie, 1);
+		assertNotNull("Game should have thrown maxed out exception after more than 10 frames", expectedException);
 	}
 
 }

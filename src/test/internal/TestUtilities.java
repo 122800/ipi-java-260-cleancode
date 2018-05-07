@@ -158,7 +158,7 @@ public interface TestUtilities {
 	 * @param e - any exception
 	 */
 	public default void throwRuntimeException(Exception e) {
-		RuntimeException failure = new RuntimeException("Bad test - this exception should not have been thrown: " + e.getMessage());
+		RuntimeException failure = new RuntimeException("Bad test - this exception should not have been thrown: " + e.getClass().getName());
 		failure.setStackTrace(e.getStackTrace());
 		throw new RuntimeException(failure);
 	}
