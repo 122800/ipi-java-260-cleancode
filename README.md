@@ -1,14 +1,30 @@
-# QUALITE DU CODE
+# TP Bowling
 
-## Cours
-liens : https://github.com/UDEV-AuRA/ipi-java-260-cleancode/blob/master/Qualit%C3%A9%20du%20code.pdf
-Choisir 5 règles et trouver (dans des anciens par exemple ou inventer) des portions de code ne respectant ces règles.
-Et proposez des solutions pour l'améliorer
+## Object Hierarchy
 
-## TP
-Continuer le GameBowling
-Rappel des règles de calcul du score au bowling
- https://fr.wikihow.com/calculer-les-scores-au-bowling
- 
- 
-Bon courage !
+:: 11 Objects total ::
+
+- 4 test files
+  - 3 test classes
+  - 1 interface (a testing utility)
+
+- 4 exception classes
+  - 3 distinct exceptions
+  - 1 inherited exception
+
+- 3 functional objects
+  - 2 classes (Game & Frame)
+  - 1 nested enum (Frame.FrameType)
+
+## Notable elements
+
+- Tried to include some JavaDoc where relevant, on the more obscure functions.
+- I decided not to inherit from `RuntimeException`. This required a minor restructuring of my tests classes to avoid bloating the code with `try/catch` statements everywhere.
+
+## Future
+
+- More to come?
+
+# Clean Code
+
+See file `mauvais_code.java` in root directory.
